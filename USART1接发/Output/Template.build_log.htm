@@ -27,11 +27,16 @@ Project File Date:  11/17/2019
 <h2>Output:</h2>
 *** Using Compiler 'V5.06 update 6 (build 750)', folder: 'C:\Keil_v5\ARM\ARMCC\Bin'
 Build target 'USART1'
-compiling bsp_usart1.c...
+compiling main.c...
+..\..\User\main.c(23): warning:  #177-D: variable "ucaRxBuf"  was declared but never referenced
+  	uint8_t ucaRxBuf[256];
+..\..\User\main.c(24): warning:  #550-D: variable "usRxCount"  was set but never used
+  	uint16_t usRxCount;
+..\..\User\main.c: 2 warnings, 0 errors
 linking...
-Program Size: Code=6400 RO-data=4256 RW-data=56 ZI-data=1024  
+Program Size: Code=6800 RO-data=4256 RW-data=56 ZI-data=1024  
 FromELF: creating hex file...
-"..\..\Output\Template.axf" - 0 Error(s), 0 Warning(s).
+"..\..\Output\Template.axf" - 0 Error(s), 2 Warning(s).
 
 <h2>Software Packages used:</h2>
 

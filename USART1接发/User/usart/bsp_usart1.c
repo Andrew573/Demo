@@ -1,5 +1,6 @@
 #include "bsp_usart1.h"
 
+__IO uint32_t USART_RxValue;
 
  /**
   * @brief  USART1 GPIO 配置,工作模式配置。9600 8-N-1
@@ -54,6 +55,57 @@ void USARTx_Config(void)
 		如下语句解决第1个字节无法正确发送出去的问题 */
 	USART_ClearFlag(USART1, USART_FLAG_TC);     /* 清发送外城标志，Transmission Complete flag */
 }
+
+void USARRx_DMA_Config(void)
+{
+		DMA_InitTypeDef DMA_InitStructure;
+	
+		/*开启DMA时钟*/
+		RCC_AHBPeriphClockCmd(RCC_AHBPeriph_DMA1, ENABLE);
+
+		/*设置DMA源：串口数据寄存器地址*/
+//		DMA_InitStructure.DMA_PeripheralBaseAddr = USART1_DR_Base;	  
+		DMA_InitStructure.DMA_PeripheralBaseAddr = ( u32 ) ( & ( macUSARTx->DR ) );	
+
+		/*内存地址(要传输的变量的指针)*/
+		DMA_InitStructure.DMA_MemoryBaseAddr = (u32)&USART_RxValue;
+
+		/*方向：从内存到外设*/		
+		DMA_InitStructure.DMA_DIR = DMA_DIR_PeripheralSRC;	
+
+		/*传输大小DMA_BufferSize=SENDBUFF_SIZE*/	
+		DMA_InitStructure.DMA_BufferSize = 5000;
+
+		/*外设地址不增*/	    
+		DMA_InitStructure.DMA_PeripheralInc = DMA_PeripheralInc_Disable; 
+
+		/*内存地址自增*/
+		DMA_InitStructure.DMA_MemoryInc = DMA_MemoryInc_Disable;	
+
+		/*外设数据单位*/	
+		DMA_InitStructure.DMA_PeripheralDataSize = DMA_PeripheralDataSize_Byte;
+
+		/*内存数据单位 8bit*/
+		DMA_InitStructure.DMA_MemoryDataSize = DMA_MemoryDataSize_Byte;	 
+
+		/*DMA模式：不断循环*/
+		DMA_InitStructure.DMA_Mode = DMA_Mode_Normal ;
+		//DMA_InitStructure.DMA_Mode = DMA_Mode_Circular;	 
+
+		/*优先级：中*/	
+		DMA_InitStructure.DMA_Priority = DMA_Priority_Medium;  
+
+		/*禁止内存到内存的传输	*/
+		DMA_InitStructure.DMA_M2M = DMA_M2M_Disable;
+
+		/*配置DMA1的4通道*/		   
+		DMA_Init(macUSART_TX_DMA_CHANNEL, &DMA_InitStructure); 	   
+		
+		/*使能DMA*/
+		DMA_Cmd (macUSART_TX_DMA_CHANNEL,ENABLE);					
+		//DMA_ITConfig(DMA1_Channel4,DMA_IT_TC,ENABLE);  //配置DMA发送完成后产生中断
+}
+
 
 /// 配置USART1接收中断
 void NVIC_Configuration(void)

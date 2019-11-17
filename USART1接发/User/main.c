@@ -2,14 +2,20 @@
 #include "stdio.h"
 #include "string.h"
 #include "bsp_usart1.h"
+#include "oled.h"
 
 uint8_t Rxflag=0;
 uint8_t ucTemp;
-/**
-  * @brief  主函数
-  * @param  无
-  * @retval 无
-  */
+
+void init()
+{
+	OLED_GPIO_Configuration();
+	LCD_Init();
+	LCD_Print(0,0, "rubber:",TYPE16X16,TYPE8X16);
+	LCD_Print(0,16, "Lm:",TYPE16X16,TYPE8X16);
+	LCD_Print(64,16, "Rm:",TYPE16X16,TYPE8X16);
+}
+
 int main(void)
 {	
 	uint8_t ucaRxBuf[256];
@@ -20,6 +26,8 @@ int main(void)
 	printf("这是一个串口中断接收回显实验\n" );
 	printf("输入数据并以回车键结束\n" );
 	usRxCount = 0;
+	
+	init();
 	
 	while(1)
 	{

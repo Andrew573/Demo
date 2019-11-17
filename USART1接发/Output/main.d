@@ -12,3 +12,4 @@
 ..\..\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdio.h
 ..\..\output\main.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\string.h
 ..\..\output\main.o: ..\..\User\usart\bsp_usart1.h
+..\..\output\main.o: ..\..\User\oled.h

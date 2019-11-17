@@ -567,6 +567,11 @@
               <FileType>1</FileType>
               <FilePath>..\..\User\usart\bsp_usart1.c</FilePath>
             </File>
+            <File>
+              <FileName>oled.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\..\User\oled.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

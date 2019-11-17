@@ -122,4 +122,6 @@ int fgetc(FILE *f)
 
 		return (int)USART_ReceiveData(USART1);
 }
+
+
 /*********************************************END OF FILE**********************/
